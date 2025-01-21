@@ -1,7 +1,7 @@
 # Noise-aware Compilation for State Preparation of Quantum Polar Codes (NAPC)
 This repository contains the implementation of the proposed architecture from the paper "Implementing Quantum Polar Codes in a Superconducting Processor: From State Preparation to Decoding". 
 
-![screen](https://github.com/HandyKurniawan/NA_QuantumPolarFramework/blob/main/img/proposed_architecture.png)
+![screen](https://github.com/HandyKurniawan/na_polar_codes_framework/blob/main/img/proposed_architecture.png)
 
 ## Table of contents
 
@@ -13,6 +13,8 @@ This repository contains the implementation of the proposed architecture from th
 ## Setup
 
 ### Installation
+
+Note: This installation guide will work for Ubuntu 20.04 and Python 3.11.5
 
 #### Clone Github
 
@@ -71,16 +73,16 @@ Note: These commands need to be run one by one, and the password for user_1 is 1
 
 Now your database is ready.
 
-#### Platform
+#### Framework
 
-First, we need to go to the home folder of the project (\NA_QuantumPolarFramework)
+First, you need to go to the home folder of the project (\na_polar_codes_framework)
 
 Note: If you have an older version (or if you don't have it) of Python please upgrade (install) it first:
 
 ``` terminal
 sudo add-apt-repository ppa:deadsnakes/ppa    
 sudo apt update  
-sudo apt install python3.12
+sudo apt install python3.11
 ```
 
 Install dependencies and set up the Python environment:
@@ -98,7 +100,7 @@ pip install -r requirements.txt
 
 #### Config
 
-Now, we need to update the `config.ini` file to change the config for the database, and the path for the TriQ before continue
+Now, you need to update the `config.ini` file to change the config for the database, and the path for the TriQ before continue
 
 ```terminal
 [MySQLConfig]
@@ -109,7 +111,7 @@ database = framework
 ...
 ```
 
-We can also set the default value in `config.ini` to compile the circuit:
+You can also set the default value in `config.ini` to compile the circuit:
 
 ```terminal
 [QuantumConfig]
@@ -126,7 +128,7 @@ runs = 1
 ...
 ```
 
-Now, we are good to go 🚀
+Now, you are good to go 🚀
 
 
 ## Usage example
@@ -135,7 +137,7 @@ We include a [demo](https://github.com/HandyKurniawan/na_polar_codes_framework/b
 
 ### Example of running code of length N=16 (n=3) for logical |+> 
 
-First, we need to import the installed framework, **NAPC**. The token is also needed since we want to run the simulator with the calibration-based noise model from IBM.
+First, you need to import the installed framework, **NAPC**. The token is also needed since you need to run the simulator with the calibration-based noise model from IBM.
 
 ```python
 from NAPC import NAPC, conf
@@ -143,26 +145,26 @@ from NAPC import NAPC, conf
 # update with your IBM Token
 token = "put_your_ibm_token_here"
 ```
-Then, we need to initialize the NAPC object. _runs_ is a parameter to duplicate the circuits x numbers of times, and _token_ is the IBM token. 
+Then, you need to initialize the NAPC object. _runs_ is a parameter to duplicate the circuits x numbers of times, and _token_ is the IBM token. 
 
 ```python
 # initialize the object using the provided token
 q = NAPC(runs=conf.runs, token=token)
 ```
-Since noise-aware compilation needs the latest calibration data, we need to always check the latest calibration data and update TriQ config's through this function: update_hardware_configs
+Since noise-aware compilation needs the latest calibration data, you need to always check the latest calibration data and update TriQ configs through this function: `update_hardware_configs`
 
 ```python
 # command to run the update TriQ's reliability matrix for the noise-aware routing
 q.update_hardware_configs()
 ```
 
-The framework will pick all the qasm files in the selected folders. In this case, we will choose polar codes for logical + with length N=16 (n=3). This will return the paths of the files under the selected folders. 
+The framework will pick all the qasm files in the selected folders. In this case, it is the example of polar codes for logical + with length N=16 (n=3). This will return the paths of the files under the selected folders. 
 
 ```python
 file_path="./QEC/polar_code/n3/x"
 qasm_files = q.get_qasm_files_from_path(file_path)
 ```
-TriQ has been updated to make it possible to apply mid-circuit measurement. For this purpose, we need to specify which qasm files need a mid-circuit measurement or not. All the other settings are:
+TriQ has been updated to make it possible to apply mid-circuit measurement. For this purpose, you need to specify which qasm files need a mid-circuit measurement or not. All the other settings are:
 
 - normal: only measurement at the end
 - polar: for middle measurement circuit
@@ -175,7 +177,7 @@ See file [run_simulation.py](https://github.com/HandyKurniawan/na_polar_codes_fr
 # this is the setup to enable mid-circuit measurement for TriQ
 triq_measurement_type="polar_meas"
 ```
-Now, we need to declare the physical error rate scaling factor, where **0** is noiseless, and **1** is standard noise. It can be set up from 0 to 1.
+Now, you need to declare the physical error rate scaling factor, where **0** is noiseless, and **1** is standard noise. It can be set up from 0 to 1.
 
 ```python
 # choosing the noise level
@@ -188,19 +190,19 @@ And the final configuration part is to set the backend
 q.set_backend(program_type="sampler", shots=shots)
 ```
 
-To run the program to the **Simulator**, we can use this function
+To run the program to the **Simulator**, you can use this function
 
 ```python
 q.run_simulator("sampler", qasm_files, compilations, noise_levels, shots)
 ```
 
-while if we want to run in the **Real backend**, we can use this function
+while if you want to run in the **Real backend**, you can use this function
 
 ```python
 q.send_to_real_backend("sampler", qasm_files, compilations, shots=shots)
 ```
 
-When the result is ready, we can calculate the result or retrieve the result with this function. Note: for the simulator, the result will be simulated in this function.
+When the result is ready, you can calculate or retrieve the result with this function. Note: for the simulator, the result will be simulated in this function.
 
 ```python
 # get the result and calculate the metric
