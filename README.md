@@ -128,6 +128,10 @@ runs = 1
 ...
 ```
 
+#### Calibration Data
+
+We need to update Triq's config based on the latest calibration data to properly run it. The script to retrieve calibration data from IBM can be seen [here](https://github.com/HandyKurniawan/na_polar_codes_framework/tree/main/wrappers/triq_wrapper) with file name `retrieve_calibration_data.py`. The calibration data will be saved in the database.
+
 Now, you are good to go 🚀
 
 
