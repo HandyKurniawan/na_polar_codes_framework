@@ -28,3 +28,5 @@ With these steps, you are ready to use TriQ with the updated hardware informatio
 
 The script to retrieve the calibration data can be seen [here](https://github.com/HandyKurniawan/na_polar_codes_framework/blob/main/wrappers/triq_wrapper/retrieve_calibration_data.py).
 
+The process to update the TriQ's config with the latest calibration data has been integrated into the framework. However, to update it independently, you can run this [script](https://github.com/HandyKurniawan/na_polar_codes_framework/blob/main/update_configs.py)
+
